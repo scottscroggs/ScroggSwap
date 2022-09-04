@@ -29,6 +29,9 @@
   justify-content: center;
 }
 
+.space-between {justify-content: space-between;}
+.space-around{justify-content: space-around;}
+
 
 .calculator {
   margin-top: 30px;
@@ -71,6 +74,10 @@
 .orange{color:orange}
 .white{color:white;}
 
+.noline{
+  text-decoration: none;
+}
+
 .coins-list{
   width:75%;
   margin-top:20px;
@@ -79,6 +86,58 @@
 .left{
   text-align: left;
 }
+
+/* Coin Details specific CSS */
+.coin-details{
+  background-color:#212529;
+  width: 75%;
+  align-items: center;
+  margin-left: 30px;
+  margin-top:20px;
+  margin-right: 30px;
+
+  padding-top: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 20px;
+
+}
+
+
+.coin-img-medium{
+  height:100px;
+  margin-right:20px;
+}
+
+.rank-badge{
+  color:black;
+  background-color:orange;
+  width:100px;
+  text-align:center;
+  padding:5px;
+  border-radius: 4px;
+  margin:2px;
+}
+
+.table-space{
+  padding-right:30px;
+}
+
+.info-block{
+
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 50px;
+  margin-top: 40px;
+}
+
+.price{
+  display:flex;
+  align-items: center;
+  margin-right:25px;
+}
+
+/* End Coin Details */
 
 .App {
   text-align: center;

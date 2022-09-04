@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios';
 
 const Coins = () => {
@@ -22,7 +23,7 @@ const Coins = () => {
     });
 
     useEffect(()=>{
-        axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d')
+        axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d')
         .then(res=>{
             setCoin(res.data)
             console.log(coin)
@@ -55,11 +56,11 @@ const Coins = () => {
                             coin.map((coin, index)=>{
                             return <tr className="coinRow" key={index}>
                                 <td className=''> {coin.market_cap_rank}</td>
-                                <td className='left'><img className="coin-img" src={coin.image}></img> {coin.name} • {coin.symbol.toUpperCase()}</td>
+                                <td className='left'><img className="coin-img" src={coin.image}></img><Link className="white noline" to={`/coins/${coin.id}`}>{coin.name} • {coin.symbol.toUpperCase()}</Link></td>
                                 <td className=''> {dollarUS.format(coin.current_price)}</td>
                                 <td className={dailyChange(coin.price_change_percentage_24h)}> {coin.price_change_percentage_24h.toFixed(2)}%</td>
                                 <td className=''> {dollarUS.format(coin.market_cap)}</td>
-                                </tr>                       
+                                </tr>                     
                             })
                         }
                     </tbody>

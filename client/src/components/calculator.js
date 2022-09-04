@@ -22,6 +22,20 @@ const Calculator = () => {
         setShowResults(true);
     }
 
+    //In Progress function that will get an API call for either Coin
+    const getPrice = (e) => {
+        e.preventDefault();
+        console.log("test")
+        axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${e.target.value}&vs_currencies=usd&include_market_cap=false&include_24hr_change=false&include_last_updated_at=true`)
+        .then(res1=>{
+            console.log(res1.data[`${coin1}`]["usd"]);
+            setCoin1Price(res1.data[`${coin1}`]["usd"]);
+        })
+        .catch((err)=> {
+            console.log(err); 
+        });
+    }
+
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
