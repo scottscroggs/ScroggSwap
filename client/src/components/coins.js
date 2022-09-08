@@ -7,6 +7,7 @@ const Coins = () => {
     const [coin, setCoin] = useState({})
     const [isLoaded, setIsLoaded] = useState(false)
 
+    //Function that will return Green or Red depending on whether % change is positive/negative
     const dailyChange = (change) => {
         if (change > 0) {
             return "green"
@@ -16,6 +17,7 @@ const Coins = () => {
         }
     }
 
+    //Formats pricing to look nice
     const dollarUS = Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
@@ -38,8 +40,8 @@ const Coins = () => {
     return (
         <div className="flex background">
             <div className="coins-list">
-                <h2 className="white">Top Coins</h2>
-                <p className="white">(Data provided by CoinGecko)</p>
+                <h2 className="white">Top 100 Coins by Market Cap</h2>
+                <p className="white">(Cryptocurrency Data powered by CoinGecko API)</p>
                 <table className="table table-dark table-hover">
                     <thead>
                         <tr>

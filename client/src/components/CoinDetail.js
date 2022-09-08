@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react'
-import {useParams} from 'react-router-dom'
+import {useParams, useNavigate} from 'react-router-dom'
 import axios from 'axios';
 
 const CoinDetail = (props) => {
     const {id} = useParams();
+
+    const navigate = useNavigate();
+
     const [coin, setCoin] = useState({})
     const [coinDesc, setCoinDesc] = useState([])
     const [coinImage, setCoinImage] = useState("")
@@ -23,15 +26,17 @@ const CoinDetail = (props) => {
 
     const [errors, setErrors] = useState([]);
 
-    
+    //Formats pricing to look nice
     const dollarUS = Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
         maximumSignificantDigits: 6,
     });
 
+    //Formatting numbers that aren't pricing
     const numberUS = Intl.NumberFormat("en-US");
 
+    //Function that will return Green or Red depending on whether % change is positive/negative
     const dailyChange = (change) => {
         if (change > 0) {return "green"}
         else {return "red"}
@@ -39,7 +44,6 @@ const CoinDetail = (props) => {
 
     //handler when the form is submitted
     const onSubmitHandler = (e) => {
-        //prevent default behavior of the submit
         e.preventDefault();
         console.log(coin)
         //make a post request to create a new record
@@ -51,7 +55,7 @@ const CoinDetail = (props) => {
             .then(res=>{
                 console.log(res);
                 console.log(res.data);
-                // navigate('/');
+                refreshPage();
             })
             .catch((err)=> {
                 console.log(err); 
@@ -59,6 +63,21 @@ const CoinDetail = (props) => {
             });
     }
 
+    //Handler to delete a comment
+    const deleteComment = (id) => {
+        axios.delete('http://localhost:8000/api/comment/' + id)
+            .then(res => {
+                refreshPage();
+            })
+            .catch(err => console.log(err))
+    }
+
+    //Refreshes page
+    const refreshPage = ()=>{
+        window.location.reload();
+    }
+
+    //Makes the API call to get the Coin information for the selected coin
     useEffect(()=>{
         axios.get('https://api.coingecko.com/api/v3/coins/' + id +'?localization=false')
         .then(res=>{
@@ -78,6 +97,7 @@ const CoinDetail = (props) => {
         });
 	}, [])
 
+    //API call to the server to get the comments for the selected coin
     useEffect(()=>{
         console.log("Coin Identity:"+id)
         axios.get("http://localhost:8000/api/comment/"+id)
@@ -149,9 +169,6 @@ const CoinDetail = (props) => {
                                 </tbody>
                             </table>
                         </div>
-
-                        
-
                     </div>
                     <h2>Description</h2>
                     <p>{coinDesc.en}</p>
@@ -164,12 +181,13 @@ const CoinDetail = (props) => {
                     <h2>Comments</h2>
                     <div>
                     <div className="white">
-                        <table className="table">
+                        <table className="table table-dark">
                             <thead>
                                 <tr className="white">
-                                    <th className="largeText">Commenter Name:</th>
-                                    <th className="largeText">Comment:</th>
-                                    <th className="largeText">Available Actions:</th>
+                                    <th className="">Name:</th>
+                                    <th className="">Comment:</th>
+                                    <th className="">Commented At:</th>
+                                    <th className="">Actions:</th>
                                 </tr>
                             </thead>
 
@@ -180,14 +198,13 @@ const CoinDetail = (props) => {
                                     return <tr className="white" key={index}>
                                         <td className=''> {comment.name}</td>
                                         <td className=''> {comment.comment}</td>
-
+                                        <td className=''>{comment.createdAt}</td>
                                         <td>
-                                            <button className="btn btn-secondary">
-                                                Details
-                                            </button>
-
-                                            <button className="btn btn-warning">
+                                            <button className="btn btn-secondary" onClick={() => navigate(`/comment/edit/${comment._id}`)}>
                                                 Edit
+                                            </button>
+                                            <button className="btn btn-danger" value={comment._id} onClick={() => deleteComment(`${comment._id}`)}>
+                                                Delete
                                             </button>
                                         </td>
 
@@ -200,7 +217,7 @@ const CoinDetail = (props) => {
                     </div>
                     </div>
 
-
+                    {/* Form to add a new comment for a coin */}
                     <form className="form" onSubmit={onSubmitHandler}>
                         <p>
                             <label>Name:</label><br/>

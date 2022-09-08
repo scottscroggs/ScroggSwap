@@ -36,7 +36,7 @@ module.exports.findCommentsByCoin = (request, response) => {
 
 //Method to Find One of the object
 module.exports.getComment = (request, response) => {
-    Comment.findOne({_id:request.params.id})
+    Comment.find({_id:request.params.id})
         .then(comment => response.json(comment))
         .catch(err => response.json(err))
 }
