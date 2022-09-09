@@ -54,7 +54,7 @@
 }
 
 .results {
-  background-color: rgb(234, 231, 231);
+  background-color:#212529;
   padding: 20px;
   border-radius: 25px;
   margin-top:40px;
@@ -135,6 +135,10 @@
   display:flex;
   align-items: center;
   margin-right:25px;
+}
+
+.margin-top {
+  margin-top:30px;
 }
 
 /* End Coin Details */

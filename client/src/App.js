@@ -1,10 +1,10 @@
 import './App.css';
 
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 
-import Calculator from './components/calculator'
-import Coins from './components/coins'
-import Navbar from './components/navbar'
+import Calculator from './components/Calculator'
+import Coins from './components/Coins'
+import Navbar from './components/Navbar'
 import CoinDetail from './components/CoinDetail'
 import EditComment from './components/EditComment'
 
@@ -15,7 +15,10 @@ function App() {
       <div className="App">
         <Navbar />
         <Routes>
-          <Route element={<Calculator />} path="/" default/>
+          {/* When you don't specify a sub-path, it will re-direct to "/coins" */}
+          <Route element={<Navigate to="/coins"/> } path="/" default/> 
+          
+          <Route element={<Calculator />} path="/calculator" />
           <Route element={<Coins />} path="/coins" />
           <Route element={<CoinDetail />} path="/coins/:id" />
           <Route element={<EditComment />} path="/comment/edit/:id"/>

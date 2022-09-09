@@ -12,8 +12,8 @@ const Navbar = () => {
                     <h1>Scrogg<span className="orange">Swap</span></h1>
                 </div>
                 <div className="navbar-right">
-                    <a className="navbar-link" href="/">Home</a>
                     <a className="navbar-link" href="/coins">Coins</a>
+                    <a className="navbar-link" href="/calculator">Calculator</a>
                 </div>
             </div>
 

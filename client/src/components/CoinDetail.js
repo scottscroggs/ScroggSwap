@@ -2,11 +2,16 @@ import React, {useEffect, useState} from 'react'
 import {useParams, useNavigate} from 'react-router-dom'
 import axios from 'axios';
 
+// This component will display the detailed information about a specific Coin, along with the Comments associated with it.
+// Shows current price, pricing info, supply statistics, and coin description
+// Comment section allows a user to leave a comment on a certain coin, and displays other existing comments.
+
 const CoinDetail = (props) => {
     const {id} = useParams();
 
     const navigate = useNavigate();
 
+    // Storing the various pieces of Coin information from the API calls.
     const [coin, setCoin] = useState({})
     const [coinDesc, setCoinDesc] = useState([])
     const [coinImage, setCoinImage] = useState("")
@@ -17,32 +22,34 @@ const CoinDetail = (props) => {
     const [coinPrice, setCoinPrice] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
 
-    // Comment State
+    // Storing the Comment information from the API calls.
     const [name, setName] = useState("")
     const [comment, setComment] = useState("")
     const [coinIdentity, setCoinIdentity] = useState("")
 
+    // List cointaining all of the Comments
     const [comments, setComments] = useState([])
 
+    //Will ensure errors get displayed when submission doesn't meet requirements.
     const [errors, setErrors] = useState([]);
 
-    //Formats pricing to look nice
+    // Formats pricing to look nice
     const dollarUS = Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
         maximumSignificantDigits: 6,
     });
 
-    //Formatting numbers that aren't pricing
+    // Formatting numbers that aren't pricing
     const numberUS = Intl.NumberFormat("en-US");
 
-    //Function that will return Green or Red depending on whether % change is positive/negative
+    // Function that will return Green or Red depending on whether % change is positive/negative
     const dailyChange = (change) => {
         if (change > 0) {return "green"}
         else {return "red"}
     }
 
-    //handler when the form is submitted
+    // Handler when the form is submitted
     const onSubmitHandler = (e) => {
         e.preventDefault();
         console.log(coin)
@@ -63,7 +70,7 @@ const CoinDetail = (props) => {
             });
     }
 
-    //Handler to delete a comment
+    // Handler to delete a comment
     const deleteComment = (id) => {
         axios.delete('http://localhost:8000/api/comment/' + id)
             .then(res => {
@@ -72,12 +79,12 @@ const CoinDetail = (props) => {
             .catch(err => console.log(err))
     }
 
-    //Refreshes page
+    // Refreshes page
     const refreshPage = ()=>{
         window.location.reload();
     }
 
-    //Makes the API call to get the Coin information for the selected coin
+    // Makes the API call to get the Coin information for the selected coin
     useEffect(()=>{
         axios.get('https://api.coingecko.com/api/v3/coins/' + id +'?localization=false')
         .then(res=>{
@@ -97,7 +104,7 @@ const CoinDetail = (props) => {
         });
 	}, [])
 
-    //API call to the server to get the comments for the selected coin
+    // API call to the server to get the comments for the selected coin
     useEffect(()=>{
         console.log("Coin Identity:"+id)
         axios.get("http://localhost:8000/api/comment/"+id)
@@ -109,6 +116,7 @@ const CoinDetail = (props) => {
             console.log(err);
         })
     }, [])
+
 
     return (
         <div>
@@ -179,8 +187,7 @@ const CoinDetail = (props) => {
             <div className="flex white">
                 <div className="coin-details">
                     <h2>Comments</h2>
-                    <div>
-                    <div className="white">
+                    <div className="white margin-top">
                         <table className="table table-dark">
                             <thead>
                                 <tr className="white">
@@ -214,7 +221,6 @@ const CoinDetail = (props) => {
                             </tbody>
 
                         </table>
-                    </div>
                     </div>
 
                     {/* Form to add a new comment for a coin */}

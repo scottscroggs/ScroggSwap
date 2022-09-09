@@ -24,16 +24,35 @@ const Calculator = () => {
 
     //In Progress function that will get an API call for either Coin
     const getPrice = (e) => {
-        e.preventDefault();
-        console.log("test")
-        axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${e.target.value}&vs_currencies=usd&include_market_cap=false&include_24hr_change=false&include_last_updated_at=true`)
-        .then(res1=>{
-            console.log(res1.data[`${coin1}`]["usd"]);
-            setCoin1Price(res1.data[`${coin1}`]["usd"]);
-        })
-        .catch((err)=> {
-            console.log(err); 
-        });
+        console.log(e)
+        if (e !== "--Select a coin--") {
+            axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${e}&vs_currencies=usd&include_market_cap=false&include_24hr_change=false&include_last_updated_at=true`)
+            .then(res=>{
+                setCoin1(e)
+                setCoin1Price(res.data[`${e}`]["usd"]);
+                console.log(res.data[`${e}`]["usd"]);
+            })
+            .catch((err)=> {
+                console.log(err); 
+            });
+        }
+
+    }
+
+    const getPrice2 = (e) => {
+        console.log(e)
+        if (e !== "--Select a coin--") {
+            axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${e}&vs_currencies=usd&include_market_cap=false&include_24hr_change=false&include_last_updated_at=true`)
+            .then(res=>{
+                setCoin2(e)
+                setCoin2Price(res.data[`${e}`]["usd"]);
+                console.log(res.data[`${e}`]["usd"]);
+            })
+            .catch((err)=> {
+                console.log(err); 
+            });
+        }
+
     }
 
     const onSubmitHandler = (e) => {
@@ -72,8 +91,8 @@ const Calculator = () => {
                     <form className="form">
                         <p>
                             <label className="white">Select Coin 1:</label><br/>
-                            <select className="form-select" onChange = {(e)=>setCoin1(e.target.value)}>
-                                <option value="">--Select a coin--</option>
+                            <select className="form-select" onChange = {(e)=>getPrice(e.target.value)}>
+                                <option value="--Select a coin--">--Select a coin--</option>
                                 <option value="bitcoin">BTC - Bitcoin</option>
                                 <option value="ethereum">ETH - Ethereum</option>
                                 <option value="ripple">XRP - Ripple</option>
@@ -95,8 +114,8 @@ const Calculator = () => {
                     <form className="form" onSubmit={onSubmitHandler}>
                         <p>
                             <label className="white">Select Coin 2:</label><br/>
-                            <select className="form-select" onChange = {(e)=>setCoin2(e.target.value)}>
-                                <option value="">--Select a coin--</option>
+                            <select className="form-select" onChange = {(e)=>getPrice2(e.target.value)}>
+                                <option value="--Select a coin--">--Select a coin--</option>
                                 <option value="bitcoin">BTC - Bitcoin</option>
                                 <option value="ethereum">ETH - Ethereum</option>
                                 <option value="ripple">XRP - Ripple</option>
@@ -114,10 +133,10 @@ const Calculator = () => {
 
             <div className="flex">
                 {showResults &&
-                    <div className="results">
+                    <div className="results white">
                         <p>{inputAmount} {coin1} is equivalent to {outputAmount} {coin2}</p>
-                        <p>Price of Coin 1: ${coin1Price} </p>
-                        <p>Price of Coin 2: ${coin2Price}</p>
+                        <p>Price of {coin1}: ${coin1Price} </p>
+                        <p>Price of {coin2}: ${coin2Price}</p>
                         <p></p>
                     </div>
                 }

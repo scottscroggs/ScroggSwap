@@ -1,17 +1,23 @@
 import React, {useEffect, useState} from 'react'
-import {Link, useParams, useNavigate} from 'react-router-dom'
+import {useParams, useNavigate} from 'react-router-dom'
 import axios from 'axios';
+
+
+// This component contains the Form to add/edit comments. 
+// Makes an API call to the Database to get the Name, Comment, and Coin associated with the comment.
+// Will submit the updated data back to the Database after user makes changes & submits.
 
 const EditComment = (props) => {
     const { id } = useParams();
     const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
 
-    // Comment State
+    // Comment information stored in state
     const [name, setName] = useState("")
     const [comment, setComment] = useState("")
     const [coinIdentity, setCoinIdentity] = useState("")
 
+    // API call to get the comment data from the database
     useEffect(() => {
         axios.get('http://localhost:8000/api/comment/edit/' + id)
             .then(res => {
@@ -27,7 +33,7 @@ const EditComment = (props) => {
             .catch(err => console.log(err));
         }, [])
 
-    //Method to actually update the pet with the information a user has filled in
+    // Method to update the comment with the new information
     const updateComment = (e) => {
         e.preventDefault();
         axios.put('http://localhost:8000/api/comment/' + id, {
@@ -37,7 +43,7 @@ const EditComment = (props) => {
         })
             .then(res => {
                 console.log(res);
-                navigate(`/coins/${coinIdentity}`);
+                navigate(`/coins/${coinIdentity}`); //re-directs back to the previous Coin Detail page
             })
             .catch((err) => {
                 console.log(err);

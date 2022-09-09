@@ -2,12 +2,16 @@ import React, {useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios';
 
-const Coins = () => {
+// This component will make an API call to get the Top 100 Coins by Marketcap.
+// It will display those results in a table.
+// Each row has a link to view the Coin Detail page to see more info.
 
+const Coins = () => {
+    // Storing State values.
     const [coin, setCoin] = useState({})
     const [isLoaded, setIsLoaded] = useState(false)
 
-    //Function that will return Green or Red depending on whether % change is positive/negative
+    // Function that will return Green or Red depending on whether % change is positive/negative
     const dailyChange = (change) => {
         if (change > 0) {
             return "green"
@@ -24,6 +28,7 @@ const Coins = () => {
         maximumSignificantDigits: 6,
     });
 
+    // API call to get the list of 100 coins.
     useEffect(()=>{
         axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h%2C24h%2C7d')
         .then(res=>{

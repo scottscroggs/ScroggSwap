@@ -1,9 +1,0 @@
-1. Handle the validations on the front end calculator - they need to
-    Select a coin
-    Enter a valid number
-
-2. Store the swap requests in a database
-
-3. Fix the "2 bitcoin is equivalent to NaN ethereum" issue
-4. The results panel needs to be more dynamic
-5. Should I use a different API with more available info for the calculator?
