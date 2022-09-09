@@ -117,6 +117,12 @@ const CoinDetail = (props) => {
         })
     }, [])
 
+    // This code will remove the hyperlinks from a text string.
+    const parseDesc = (desc) => {
+        let string = desc.replace(/(<([^>]+)>)/ig, '');
+        return string;
+    }
+
 
     return (
         <div>
@@ -179,7 +185,7 @@ const CoinDetail = (props) => {
                         </div>
                     </div>
                     <h2>Description</h2>
-                    <p>{coinDesc.en}</p>
+                    <p>{parseDesc(coinDesc.en)}</p>
                     
                 </div>
                 }
@@ -219,7 +225,6 @@ const CoinDetail = (props) => {
                                     })
                                 }
                             </tbody>
-
                         </table>
                     </div>
 
